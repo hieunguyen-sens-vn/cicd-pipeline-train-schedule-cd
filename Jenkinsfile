@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Running build automation'
-                sh './gradlew build --no-daemon'
+                sh './gradlew build -PtestAllSupportedGradleVersions=true'
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
@@ -14,7 +14,6 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
-                    ssh 'echo lmao'
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
